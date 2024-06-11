@@ -30,9 +30,9 @@ type EmailConfig struct {
 }
 
 func NewConfig() *Config {
-	port, err := strconv.Atoi(getEnv("SERVER_PORT", "8080"))
+	port, err := strconv.Atoi(getEnv("SERVER_PORT", "3000"))
 	if err != nil {
-		port = 8080
+		port = 3000
 	}
 	postgresPort, err := strconv.Atoi(getEnv("DB_PORT", "5432"))
 	if err != nil {
@@ -47,7 +47,7 @@ func NewConfig() *Config {
 			Port:     postgresPort,
 			User:     getEnv("DB_USER", "postgres"),
 			Password: getEnv("DB_PASSWORD", "password"),
-			DBName:   getEnv("DB_NAME", "drev"),
+			DBName:   getEnv("DB_NAME", "dostap"),
 			SSLMode:  getEnv("DB_SSLMODE", "disable"),
 		},
 		Email: EmailConfig{
@@ -74,6 +74,6 @@ func (cfg *Config) Addr() string {
 	return fmt.Sprintf("%s:%v", cfg.Host, cfg.Port)
 }
 func (pc *PostgresConfig) DSN() string {
-	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		pc.Host, pc.Port, pc.User, pc.Password, pc.DBName, pc.SSLMode)
+	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s",
+		 pc.User, pc.Password,pc.Host,pc.Port, pc.DBName, pc.SSLMode)
 }

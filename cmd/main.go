@@ -1,9 +1,9 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/MeiramSh/dostap/internal/config"
 	"github.com/MeiramSh/dostap/internal/controller"
@@ -15,17 +15,12 @@ func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	cfg := config.NewConfig()
 
-	db, err := sql.Open("postgres", cfg.Postgres.DSN())
+	app, err := pkg.App(cfg.Postgres.DSN())
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
-	if err := migrate.Migrate(db); err != nil {
-		log.Fatal(err)
-	}
-
-	app, err := pkg.App()
+	err = pkg.Migrate(app.DB)
 
 	if err != nil {
 		log.Fatal(err)
@@ -36,5 +31,6 @@ func main() {
 
 	controller.Setup(app, ginRouter)
 
-	ginRouter.Run(fmt.Sprintf(":%s", 1136))
+	ginRouter.Run(fmt.Sprintf(":%s", strconv.Itoa(cfg.Port)))
+
 }

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"unicode"
 
+	"github.com/MeiramSh/dostap/internal/controller/tokenutil"
+	"github.com/MeiramSh/dostap/internal/models"
 	"github.com/gin-gonic/gin"
-	"github.com/username/GitRepoName/internal/controller/tokenutil"
-	"github.com/username/GitRepoName/internal/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -16,7 +16,7 @@ type AuthController struct {
 }
 
 func (uc *AuthController) Signup(c *gin.Context) {
-	var request models.UserRequest
+	var request models.User
 
 	if err := c.ShouldBind(&request); err != nil {
 		c.JSON(http.StatusBadRequest, models.ErrorResponse{

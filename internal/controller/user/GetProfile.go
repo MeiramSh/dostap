@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/username/GitRepoName/internal/models"
+	"github.com/MeiramSh/dostap/internal/models"
 )
 
 type UserController struct {

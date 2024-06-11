@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/username/GitRepoName/internal/controller/tokenutil"
-	models "github.com/username/GitRepoName/internal/models"
+	"github.com/MeiramSh/dostap/internal/controller/tokenutil"
+	models "github.com/MeiramSh/dostap/internal/models"
 )
 
 func JWTAuth(secret string) gin.HandlerFunc {

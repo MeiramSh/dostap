@@ -1,14 +1,14 @@
 package pkg
 
-import "github.com/jackc/pgx/v4/pgxpool"
+import "github.com/jackc/pgx/v5/pgxpool"
 
 type Application struct {
 	DB *pgxpool.Pool
 }
 
-func App() (Application, error) {
+func App(DATABASE_URL string) (Application, error) {
 	app := &Application{}
-	conn, err := NewConn()
+	conn, err := NewConn(DATABASE_URL)
 	if err != nil {
 		return Application{}, err
 	}
@@ -18,5 +18,5 @@ func App() (Application, error) {
 }
 
 func (app *Application) CloseDBConnection() {
-	app.CloseDBConnection()
+	app.DB.Close()
 }

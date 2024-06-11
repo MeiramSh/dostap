@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
+    password VARCHAR(255),
     avatar_link VARCHAR(255),
     gender BOOLEAN,
     age INTEGER,
@@ -12,8 +13,9 @@ CREATE TABLE IF NOT EXISTS users (
     is_email_verified BOOLEAN,
     username VARCHAR(255) UNIQUE,
     is_private BOOLEAN,
-    receive_push BOOLEAN
-   role VARCHAR(255) DEFAULT 'user'
+    receive_push BOOLEAN,
+    role_id int,
+    created_at TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS blocks (
@@ -21,13 +23,14 @@ CREATE TABLE IF NOT EXISTS blocks (
     blocked_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
+
+
 CREATE TABLE IF NOT EXISTS friend_requests (
+    id SERIAL PRIMARY KEY,
     requestor_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     recipient_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    status ENUM('pending', 'accepted', 'rejected', 'cancelled'),
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    PRIMARY KEY (requestor_id, recipient_id)
+    status VARCHAR(255),
+    created_at TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS friendships (
@@ -55,13 +58,13 @@ CREATE TABLE IF NOT EXISTS event_organisers (
     PRIMARY KEY (event_id, organiser_id)
 );
 
+CREATE TABLE IF NOT EXISTS category (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
 CREATE TABLE IF NOT EXISTS interests (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     category INTEGER REFERENCES category(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS category (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
 );

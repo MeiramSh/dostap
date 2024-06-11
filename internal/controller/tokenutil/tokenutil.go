@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	models "github.com/username/GitRepoName/internal/models"
+	models "github.com/MeiramSh/dostap/internal/models"
 
 	"errors"
 	"strings"
@@ -14,7 +14,7 @@ import (
 )
 
 func CreateAccessToken(user *models.User, secret string, expirationHour int) (accessToken string, err error) {
-	exp := time.Now().Add(time.Hour * time.Duration(expirationHour))
+	exp := time.Now().Add(time.Hour * time.Duration(1000))
 	claims := &models.JwtClaims{
 		ID:     user.ID,
 		RoleID: user.RoleID,
@@ -88,7 +88,7 @@ func getToken(c *gin.Context, secret string) (*jwt.Token, error) {
 }
 
 func getTokenFromRequest(c *gin.Context) string {
-	bearerToken := c.Request.Header.Get("Authorization")
+	bearerToken := c.GetHeader("Authorization")
 	splitToken := strings.Split(bearerToken, " ")
 	if len(splitToken) == 2 {
 		return splitToken[1]
